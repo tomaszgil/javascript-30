@@ -88,14 +88,14 @@ class App {
   onKeyPress(e) {
     const button = this.keyToButtonMap[e.key.toUpperCase()];
     if (button) {
-      button.handleUserAction();
+      button.handleUserActionStart();
     }
   }
 
   onKeyRelease(e) {
     const button = this.keyToButtonMap[e.key.toUpperCase()];
     if (button) {
-      button.handleUserEndAction();
+      button.handleUserActionEnd();
     }
   }
 
@@ -121,16 +121,18 @@ class Button {
   }
 
   bindEvents() {
-    this.element.addEventListener('click', this.handleUserAction.bind(this), false);
+    this.element.addEventListener('mousedown', this.handleUserActionStart.bind(this), false);
+    this.element.addEventListener('mouseup', this.handleUserActionEnd.bind(this), false);
   }
 
-  handleUserAction() {
+  handleUserActionStart() {
+    this.audio.currentTime = 0;
     this.audio.play();
-    this.element.style.borderColor = '#eeb501';
+    this.element.classList.add('playing');
   }
 
-  handleUserEndAction() {
-    this.element.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+  handleUserActionEnd() {
+    this.element.classList.remove('playing');
   }
 }
 
