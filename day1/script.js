@@ -1,73 +1,126 @@
 'use strict';
 
 class App {
-  config = {
-    set: [
-      {
-        letter: 'A',
-        name: 'CLAP',
-      },
-      {
-        letter: 'S',
-        name: 'HIHAT',
-      },
-      {
-        letter: 'D',
-        name: 'KICK',
-      },
-      {
-        letter: 'F',
-        name: 'OPENHAT',
-      },
-      {
-        letter: 'G',
-        name: 'BOOM',
-      },
-      {
-        letter: 'H',
-        name: 'RIDE',
-      },
-      {
-        letter: 'J',
-        name: 'SNARE',
-      },
-      {
-        letter: 'K',
-        name: 'TOM',
-      },
-      {
-        letter: 'L',
-        name: 'KICK',
-      }
-    ]
-  };
+  constructor() {
+    this.buttons = [];
+    this.config = {
+      soundDir: './sounds/',
+      set: [
+        {
+          letter: 'A',
+          name: 'CLAP',
+          filename: 'clap.wav'
+        },
+        {
+          letter: 'S',
+          name: 'HIHAT',
+          filename: 'hihat.wav'
+        },
+        {
+          letter: 'D',
+          name: 'KICK',
+          filename: 'kick.wav'
+        },
+        {
+          letter: 'F',
+          name: 'OPENHAT',
+          filename: 'openhat.wav'
+        },
+        {
+          letter: 'G',
+          name: 'BOOM',
+          filename: 'boom.wav'
+        },
+        {
+          letter: 'H',
+          name: 'RIDE',
+          filename: 'ride.wav'
+        },
+        {
+          letter: 'J',
+          name: 'SNARE',
+          filename: 'snare.wav'
+        },
+        {
+          letter: 'K',
+          name: 'TOM',
+          filename: 'tom.wav'
+        },
+        {
+          letter: 'L',
+          name: 'TINK',
+          filename: 'tink.wav'
+        }
+      ]
+    };
+  }
 
-  static run() {
+  run() {
     const elements = document.getElementsByClassName('drum-list-item');
-    const buttons = elements.map(
-      (el, i) => new Button(App.config.set[i].letter, App.config.set[i].name, elements[i])
-    );
+    const audio = this.loadAudioFiles();
 
-    console.log(buttons);
+    this.buttons = Array.from(elements).map(
+      (el, i) => new Button(
+        this.config.set[i].letter,
+        this.config.set[i].name,
+        audio[i],
+        elements[i]
+      )
+    );
+    this.keyToButtonMap = this.buildKeyMap(this.buttons);
+
+    this.bindEvents();
+  }
+
+  bindEvents() {
+    document.addEventListener('keypress', this.onKeyPress.bind(this), false);
+  }
+
+  buildKeyMap(buttons) {
+    const map = buttons.map((el) => {
+      return {[el.letter]: el};
+    });
+
+    return Object.assign({}, ...map);
+  }
+
+  onKeyPress(e) {
+    const button = this.keyToButtonMap[e.key.toUpperCase()];
+    if (button) {
+      button.handleUserAction();
+    }
+  }
+
+  loadAudioFiles() {
+    return this.config.set.map(el => new Audio(this.config.soundDir + el.filename));
   }
 }
 
 class Button {
-  constructor(letter, name, element) {
+  constructor(letter, name, audio, element) {
     this.letter = letter;
     this.name = name;
+    this.audio = audio;
+    this.element = element;
 
-    build();
+    this.build();
+    this.bindEvents();
   }
 
   build() {
-
+    this.element.children[0].innerHTML = this.letter;
+    this.element.children[1].innerHTML = this.name;
   }
 
-  onClick() {
+  bindEvents() {
+    this.element.addEventListener('click', this.handleUserAction.bind(this), false);
+  }
 
+  handleUserAction() {
+    this.audio.play();
   }
 
 }
 
-App.run();
+const app = new App();
+app.run();

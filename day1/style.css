@@ -1,7 +1,10 @@
 body {
   width: 100%;
   height: 100vh;
-  background: url('images/drummer.jpg');
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.7),
+    rgba(0, 0, 0, 0.7)
+  ), url('images/drummer.jpg');
   background-size: cover;
   display: flex;
   align-items: center;
@@ -25,9 +28,23 @@ body {
   background: rgba(255, 255, 255, 0.2);
   cursor: pointer;
   transition: all 0.3s ease-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.drum-list-item .letter {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.drum-list-item .name {
+  color: #eeb501;
 }
 
 .drum-list-item:hover {
-  border-color: rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.3);
 }
