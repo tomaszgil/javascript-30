@@ -27,7 +27,7 @@ body {
   border: 2px solid rgba(255, 255, 255, 0.3);
   background: rgba(255, 255, 255, 0.2);
   cursor: pointer;
-  transition: all 0.3s ease-out;
+  transition: all 0.2s ease-out;
   display: flex;
   justify-content: center;
   align-items: center;

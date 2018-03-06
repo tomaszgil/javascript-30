@@ -73,7 +73,8 @@ class App {
   }
 
   bindEvents() {
-    document.addEventListener('keypress', this.onKeyPress.bind(this), false);
+    document.addEventListener('keydown', this.onKeyPress.bind(this), false);
+    document.addEventListener('keyup', this.onKeyRelease.bind(this), false);
   }
 
   buildKeyMap(buttons) {
@@ -88,6 +89,13 @@ class App {
     const button = this.keyToButtonMap[e.key.toUpperCase()];
     if (button) {
       button.handleUserAction();
+    }
+  }
+
+  onKeyRelease(e) {
+    const button = this.keyToButtonMap[e.key.toUpperCase()];
+    if (button) {
+      button.handleUserEndAction();
     }
   }
 
@@ -118,8 +126,12 @@ class Button {
 
   handleUserAction() {
     this.audio.play();
+    this.element.style.borderColor = '#eeb501';
   }
 
+  handleUserEndAction() {
+    this.element.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+  }
 }
 
 const app = new App();
