@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+  <title>30 days of JavaScript</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <img src="images/bg.jpg" alt="" class="background">
+  <div class="content">
+    <h1 class="title">Update CSS variables with <span class="colored">JS</span></h1>
+    <form action="#">
+      <div>
+        <label for="spacing">Spacing</label>
+        <input id="spacing" type="range" min="0" max="50" step="1" value="0">
+      </div>
+      <div>
+        <label for="blur">Blur</label>
+        <input id="blur" type="range" min="0" max="50" step="1" value="0">
+      </div>
+      <div>
+        <label for="color">Color</label>
+        <input id="color" type="color" value="#ffffff">
+      </div>
+    </form>
+    <div class="result">
+      <img src="images/bg.jpg" alt="">
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
