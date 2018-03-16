@@ -24,6 +24,7 @@ class VideoPlayer {
       pause: '&#10074;&#10074;'
     };
 
+    this.mousedownOnProgress = false;
     this.bindEvents();
   }
 
@@ -35,6 +36,9 @@ class VideoPlayer {
     this.video.addEventListener('pause', this.updateButton.bind(this));
     this.playButton.addEventListener('click', this.togglePlay.bind(this));
     this.progress.addEventListener('click', this.setCurrentTime.bind(this));
+    this.progress.addEventListener('mousemove', (e) => this.mousedownOnProgress && this.setCurrentTime(e));
+    this.progress.addEventListener('mousedown', () => this.mousedownOnProgress = true);
+    this.progress.addEventListener('mouseup', () => this.mousedownOnProgress = false);
     Array.from(this.sliders).forEach(slider => slider.addEventListener('change', this.slide.bind(this)));
     Array.from(this.skipButtons).forEach(button => button.addEventListener('click', this.skip.bind(this)));
   }
